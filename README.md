@@ -67,7 +67,7 @@
 | [PlayerData.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/PlayerData.cs) | プレイヤー（片手ごと）のステータス。また、それらの状態の変更処理と状態に合わせた処理。（ダメージ処理、スタン処理など） | 全記述 |
 | [WeaponItemBehaviour.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/WeaponItemBehaviour.cs) | 敵が落とす武器本体に関する処理 | 全記述 |
 | ▼[Controllerフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts/Controller) |  |  |
-| [HandsSetUpController.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/HandsSetUpController.cs) | 手のセットアップフェーズに行う処理 | 全記述 |
+| [HandsSetUpController.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Controller/HandsSetUpController.cs) | 手のセットアップフェーズに行う処理 | 全記述 |
 | ▼[HandSetUpフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts/HandSetUp) | 手のセットアップフェーズで使うボタン処理がまとめてあるフォルダ |  |  |
 | [HandsSetUpController.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/GameStart.cs) | ゲームスタートボタンの処理 | 全記述 |
 | [LeftHandOK.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/LeftHandOK.cs) | 左手のセットアップ完了ボタンの処理 | 全記述 |
