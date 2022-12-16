@@ -64,7 +64,7 @@
 | [EnemyWeapon.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/EnemyWeapon.cs) | 敵の攻撃の親クラス（プレイヤーと姫との衝突判定を取得） | 全記述 |
 | [HandRightCollider.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/HandRightCollider.cs) | 手の加速度を毎フレーム計算し、手の動いている向きと力を算出する | 全記述 |
 | [HandTestEnemy.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/HandTestEnemy.cs) | 手のセットアップフェーズの際、試しに攻撃するための的の役割を果たす敵 | 全記述 |　
-| [PlayerData.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/PlayerData.cs) | プレイヤー（片手ごと）のステータス。また、それらの状態の変更処理と状態に合わせた処理。（ダメージ処理、スタン処理など） | 全記述 |
+| [PlayerData.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/PlayerData.cs) | プレイヤー（片手ごと）のステータス。また、それらの状態の変更処理と状態に合わせた処理。（ダメージ処理、スタン処理など） | 「姫とライドエリアの親子関係を切る処理」以外全記述 |
 | [WeaponItemBehaviour.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/WeaponItemBehaviour.cs) | 敵が落とす武器本体に関する処理 | 全記述 |
 | ▼[Controllerフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts/Controller) |  |  |
 | [HandsSetUpController.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Controller/HandsSetUpController.cs) | 手のセットアップフェーズに行う処理 | 全記述 |
