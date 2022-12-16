@@ -77,6 +77,10 @@
 | [RightHandSetReset.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/RightHandSetReset.cs) | 右手のコライダーをセットしなおすボタンの処理 | 全記述 |
 | ▼[Managerフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts/Manager) |  |  |
 | [WeaponManager.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Manager/WeaponManager.cs) | 敵を倒した際の武器のドロップに関する処理 | 全記述 |
+|  |  |  |
+| ▼▼[Oculusフォルダ > VRフォルダ > Scriptsフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Oculus/VR/Scripts) |  |  |
+| ▼[Utilフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Oculus/VR/Scripts) |  |  |
+| [OVRSkeleton.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Oculus/VR/Scripts/Util/OVRSkeleton.cs) | ハンドトラッキングで手の生成の際などに、Born,Bind,Capsuleを生成する処理 | Capsule生成の際タグをつける処理を追加 <br> （これにより敵との当たり判定を取得しやすくしている） |
 
 ※上記に記載のないスクリプトファイルは私自身記述した部分のないスクリプトファイルとなっております。  
 
