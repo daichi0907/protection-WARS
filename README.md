@@ -124,4 +124,4 @@
 # 使用したデバイス・ツール
 ・Unity 2020.3.18f1   
 ・VisualStudio2019  
-・Meta Quest2 **<ins>（Link接続必須のゲームとなっております。）<ins>**  
+・Meta Quest2 **（Link接続必須のゲームとなっております。）**  
