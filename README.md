@@ -122,7 +122,7 @@
 | [OVRSkeleton.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Oculus/VR/Scripts/Util/OVRSkeleton.cs) | ハンドトラッキングで手の生成の際などに、Born,Bind,Capsuleを生成する処理 | Capsule生成の際タグをつける処理を追加 <br> （これにより敵との当たり判定を取得しやすくしている） |
 |  |  |  |
 | ▼▼[Oculusフォルダ > SampleFrameworkフォルダ > Coreフォルダ > CustomHandsフォルダ > Materialsフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Oculus/SampleFramework/Core/CustomHands/Materials) |  |  |
-| [Hands_DiffBump.shader](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Oculus/SampleFramework/Core/CustomHands/Materials/Hands_DiffBump.shader) | ハンドトラッキングで取得した手を描画する | 元のHands＿DiffBump.shaderを改良し、白い手に発行から任意の色に全体が発行するよう修正。|
+| [Hands_DiffBump.shader](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Oculus/SampleFramework/Core/CustomHands/Materials/Hands_DiffBump.shader) | ハンドトラッキングで取得した手を描画する | 元のHands＿DiffBump.shaderを改良し、白い手に発光から任意の色に全体が発光するよう修正。|
 
 ※上記に記載のないスクリプトファイルは私自身記述した部分のないスクリプトファイルとなっております。  
 
