@@ -56,9 +56,8 @@
   
 【姫】  
 敵を倒すことで経験値・回復・武器がドロップされます。  
-経験値を一定数与えることで姫のレベルが上がり自衛能力が高まります。  
+経験値を一定数与えることでレベルが上がりプレイヤーと姫の体力が満タンになります。  
 回復を渡すことで姫の体力を回復することができます。  
-姫に武器を渡すことで武器の種類に応じた様々な自衛をしてくれます。    
   
 ![VR_Test_ShugoWars_1208_セットアップフェーズ映像](https://user-images.githubusercontent.com/71632844/208294900-5f8c6a7d-398d-411b-8788-2ab3f9af44f8.gif)  
 ⓵セットアップフェーズの映像  
@@ -99,7 +98,7 @@
 | --- | --- | --- |
 | ▼▼[Scriptsフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts) |  |  |
 | ▼[Behaviourフォルダ](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour) |  |  |
-| [EnemyParent.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/EnemyParent.cs) | 敵の親クラス（敵共通の処理） | プレイヤーとの接触判定処理。 <br> 倒された際のアイテムのドロップ処理 。<br>リファクタリング 。 |
+| [EnemyParent.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/EnemyParent.cs) | 敵の親クラス（敵共通の処理） | プレイヤーとの接触判定処理。 <br> 倒された際のアイテムのドロップ処理 。 |
 | [EnemySample.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/EnemySample.cs) | 敵の子クラス（敵が実装され次第消去予定のサンプル） | 全記述 |
 | [EnemyWeapon.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/EnemyWeapon.cs) | 敵の攻撃の親クラス（プレイヤーと姫との衝突判定を取得） | 全記述 |
 | [HandRightCollider.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/HandRightCollider.cs) | 手の加速度を毎フレーム計算し、手の動いている向きと力を算出する | 全記述 |
@@ -108,6 +107,7 @@
 | [WeaponItemBehaviour.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/WeaponItemBehaviour.cs) | 敵が落とす武器本体に関する処理 | 全記述 |
 | ▼[Controllerフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts/Controller) |  |  |
 | [HandsSetUpController.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Controller/HandsSetUpController.cs) | 手のセットアップフェーズに行う処理 | 全記述 |
+| [SoundController.cs](https://github.com/shuhei-M/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Controller/SoundController.cs) | ゲーム中の2D音源初期化処理、BGM関係の処理 | 姫のSEのロード処理以外記述 |
 | ▼[HandSetUpフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts/HandSetUp) | 手のセットアップフェーズで使うボタン処理がまとめてあるフォルダ |  |  |
 | [HandsSetUpController.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/GameStart.cs) | ゲームスタートボタンの処理 | 全記述 |
 | [LeftHandOK.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/LeftHandOK.cs) | 左手のセットアップ完了ボタンの処理 | 全記述 |
@@ -117,6 +117,8 @@
 | [RightHandSetReset.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/RightHandSetReset.cs) | 右手のコライダーをセットしなおすボタンの処理 | 全記述 |
 | ▼[Managerフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts/Manager) |  |  |
 | [WeaponManager.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Manager/WeaponManager.cs) | 敵を倒した際の武器のドロップに関する処理 | 全記述 |
+| ▼[Soundフォルダ](https://github.com/shuhei-M/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts/Sound) |  |  |
+| [Sound2D.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Sound/Sound2D.cs) | シングルトンパターンを用いて2Dサウンドを一括管理 | 全記述 |
 |  |  |  |
 | ▼▼[Oculusフォルダ > VRフォルダ > Scriptsフォルダ > Utilフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Oculus/VR/Scripts/Util) |  |  |
 | [OVRSkeleton.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Oculus/VR/Scripts/Util/OVRSkeleton.cs) | ハンドトラッキングで手の生成の際などに、Born,Bind,Capsuleを生成する処理 | Capsule生成の際タグをつける処理を追加 <br> （これにより敵との当たり判定を取得しやすくしている） |
