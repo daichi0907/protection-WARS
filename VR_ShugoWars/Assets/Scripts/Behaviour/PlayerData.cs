@@ -21,11 +21,13 @@ public class PlayerData : MonoBehaviour, IBattleComponent
 
 
     #region field
+    private Dictionary<string, _Data> _PoolSE = new Dictionary<string, _Data>();
     private Hand hand;
     private OVRMeshRenderer meshRenderer;
     private Material material;
     private Color _handMatColor;
     private int _startLife;
+    private int _oldHimeLevel = 1;
     private float _nowStanTime = 0f;
     private float _capsulesInstansTime = 0f;
     private float _stanFlashSpeed = 6f;
@@ -42,7 +44,10 @@ public class PlayerData : MonoBehaviour, IBattleComponent
         meshRenderer = GetComponent<OVRMeshRenderer>();
         material = GetComponent<SkinnedMeshRenderer>().material;
         _handMatColor = material.GetColor("_MyColor");
+
         GetHand();
+
+        SetSE();
 
         _startLife = _life;
     }
@@ -50,6 +55,9 @@ public class PlayerData : MonoBehaviour, IBattleComponent
     // Update is called once per frame
     void Update()
     {
+        // 姫のレベルが上がった際に回復
+        HimeLevelUp();
+
         // 手の当たり判定のあるオブジェクトを取得
         if (hand.capsulesObj == null && meshRenderer.IsInitialized)
         {
@@ -70,6 +78,23 @@ public class PlayerData : MonoBehaviour, IBattleComponent
 
 
     #region Method
+    // SEのロード
+    void SetSE()
+    {
+        _PoolSE.Add("Hand_Hit", new _Data("Hand_Hit", "3D/Hand_Hit"));
+        _PoolSE.Add("Hand_Stan", new _Data("Hand_Stan", "3D/Hand_Stan"));
+    }
+
+    // 指定のSEを１回再生
+    void PlaySE(string key)
+    {
+        // リソースの取得
+        var _data = _PoolSE[key];
+        var source = GetComponent<AudioSource>();
+        source.clip = _data.Clip;
+        source.Play();
+    }
+
     // プレイヤーがダメージを受けた時の処理
     void DamagePlayer(int damage)
     {
@@ -96,6 +121,11 @@ public class PlayerData : MonoBehaviour, IBattleComponent
             ResetPrincessTransform();
             hand.ChangeActive(false);
             _stan = true;
+            PlaySE("Hand_Stan");
+        }
+        else
+        {
+            PlaySE("Hand_Hit");
         }
     }
 
@@ -177,6 +207,18 @@ public class PlayerData : MonoBehaviour, IBattleComponent
             {
                 material.SetColor("_MyColor", new Color(red, green, blue, alpha));
             }
+        }
+    }
+
+    // 姫のレベルが上がったか取得
+    void HimeLevelUp()
+    {
+        int nowLevel = GameModeController.Instance.Princess.Level;
+
+        if (_oldHimeLevel < nowLevel)
+        {
+            _life = _startLife;
+            _oldHimeLevel = nowLevel;
         }
     }
 

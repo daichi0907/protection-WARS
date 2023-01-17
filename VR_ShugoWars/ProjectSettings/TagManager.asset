@@ -12,6 +12,15 @@ TagManager:
   - HandCapsuleRigidbody
   - OFF
   - ON
+  - enemy_soldier
+  - ExpItem
+  - enemy_tank
+  - enemy_ship_r
+  - Barrier
+  - IndexFinger
+  - enemy_ship_g
+  - enemy_bullet
+  - TestEnemy
   layers:
   - Default
   - TransparentFX

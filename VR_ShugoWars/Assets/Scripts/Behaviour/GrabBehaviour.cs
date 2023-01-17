@@ -22,10 +22,12 @@ public class GrabBehaviour : MonoBehaviour
     #region field
     private bool isIndexPinching;
     private float ThumbPinchStrength;
+
+    private bool _IsFinishDirectionSetting = false;
     #endregion
 
     #region property
-
+    public bool IsFinishDirectionSetting { get { return _IsFinishDirectionSetting; } }
     #endregion
 
     #region Unity function
@@ -51,6 +53,8 @@ public class GrabBehaviour : MonoBehaviour
             IndexSphere.transform.position = indexTipPos;
             IndexSphere.transform.rotation = indexTipRotate;
         }
+
+        if(!_IsFinishDirectionSetting) DirectionSettingFunction();
     }
 
     void OnTriggerStay(Collider other)
@@ -78,7 +82,7 @@ public class GrabBehaviour : MonoBehaviour
         }
 
         /// <summary> 掴んだ時の処理 </summary>
-        if (ThumbPinchStrength>0.9)///つかんだ
+        if (ThumbPinchStrength>0.9f)///つかんだ
         {
             // 掴んだオブジェクトのデータにアクセス
             _IGrabableObject.IsGrabed = true;
@@ -130,6 +134,16 @@ public class GrabBehaviour : MonoBehaviour
         }
 
         return true;
+    }
+
+    private void DirectionSettingFunction()
+    {
+        if (GameModeController.Instance.State != GameModeStateEnum.DirectionSetting) return;
+
+        /// <summary> 人差し指と親指をくっつけていない場合 </summary>
+        if (ThumbPinchStrength < 0.9f) return;
+
+        _IsFinishDirectionSetting = true;
     }
     #endregion
 }

@@ -21,10 +21,19 @@ public class TankMove : EnemyParent
     GameObject course;
 
     int posmove;
-    float shottime = 0f;
+    float _shottime = 0f;
     bool move = true;//trueのとき行先まで動く
     bool rol = false;//falseのとき行き先をさがす
     public static bool cannon = false;//trueで大砲を撃つ
+
+    GameObject Desk;
+    public float upspeed = 0.01f;
+    bool spawn = false;
+
+    public float ShotTime = 10f;
+    public float StopDistance = 0.04f;
+
+    private Dictionary<string, _Data> _PoolSE = new Dictionary<string, _Data>();
 
     void Start()
     {
@@ -39,11 +48,50 @@ public class TankMove : EnemyParent
 
         //Target = GameObject.Find(himename);
         Randomrol();
+
+        spawn = true;
+        Desk = GameObject.Find("Desk");
+
+        SetSE();
+    }
+
+    void SetSE()
+    {
+        _PoolSE.Add("Tank_Shot", new _Data("Tank_Shot", "3D/Tank_Shot"));
+
+    }
+    // 指定のSEを１回再生
+    void PlaySE(string key)
+    {
+        // リソースの取得
+        var _data = _PoolSE[key];
+        var source = GetComponent<AudioSource>();
+        source.clip = _data.Clip;
+        source.Play();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (GameModeController.Instance.GameTime > 180f)
+        {
+            fallback();
+            return;
+        }
+
+        //スポーンしてから机の上まで移動
+        if (spawn == true)
+        {
+            transform.position += transform.up * upspeed * Time.deltaTime;
+
+            if (transform.position.y > Desk.transform.position.y + 0.005f)
+            {
+                upspeed = 0f;
+                spawn = false;
+            };
+            return;
+        }
+
         //int posmove = Random.Range(0, 6);
 
         if (rol == false)
@@ -65,7 +113,7 @@ public class TankMove : EnemyParent
             float distance = Vector3.Distance(transform.position, course.transform.position);
 
             run();
-            if (distance <= 0)
+            if (distance <= StopDistance)
             {
                 move = false;
             }
@@ -138,14 +186,16 @@ public class TankMove : EnemyParent
     void shot()
     {
         //10秒ごとに弾を生成
-        shottime = shottime + Time.deltaTime;
-        if (shottime > 1f)
+        _shottime = _shottime + Time.deltaTime;
+        if (_shottime > ShotTime)
         {
-            shottime = 0f;
+            _shottime = 0f;
 
             Debug.Log("発射");
 
             cannon = true;
+
+            PlaySE("Tank_Shot");
 
         }
     }

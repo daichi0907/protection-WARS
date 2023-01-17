@@ -15,6 +15,7 @@ public class EffectManager : SingletonMonoBehaviour<EffectManager>
 		None = -1,
 		Heal,
 		Exp,
+		Clear,
 	}
 	#endregion
 

@@ -20,22 +20,35 @@ public class ItemManager : SingletonMonoBehaviour<ItemManager>
 
 	#region serialize field
 	[SerializeField] private List<GameObject> _ItemList = new List<GameObject>();
+
+	[SerializeField, Range(5, 10)] private int _MaxDropEstablishment = 7;
+
+	[SerializeField, Range(5, 10)] private int _MaxAliveItemCount = 10;
 	#endregion
 
 	#region field
 	//private int DefeatePoint;   // 敵を打ち負かした数を計測
-	#endregion
+	private int _DropEstablishment;
 
-	#region property
+	private int _AliveItemCount;
+    #endregion
 
-	#endregion
+    #region property
+    public int AliveItemCount 
+	{
+		get { return _AliveItemCount; }
+		set { _AliveItemCount = value; }
+	}
+    #endregion
 
-	#region Unity function
-	// Start is called before the first frame update
-	void Start()
+    #region Unity function
+    // Start is called before the first frame update
+    void Start()
     {
+		_DropEstablishment = _MaxDropEstablishment;
 
-    }
+		_AliveItemCount = 0;
+	}
 
     // Update is called once per frame
     void Update()
@@ -61,6 +74,9 @@ public class ItemManager : SingletonMonoBehaviour<ItemManager>
 			return null;
 		}
 
+		// 場にあるアイテムが10個以上であれば生成しない
+		if (_AliveItemCount >= _MaxAliveItemCount) return null;
+
 		var index = (int)id;
 		var prefab = _ItemList[index];
 		if (index < 0 || _ItemList.Count <= index)
@@ -75,6 +91,9 @@ public class ItemManager : SingletonMonoBehaviour<ItemManager>
 		}
 		var obj = Instantiate(prefab, position, Quaternion.identity);
 		obj.transform.SetParent(transform);
+
+		_AliveItemCount++;
+
 		return obj;
 	}
 	#endregion
@@ -82,9 +101,25 @@ public class ItemManager : SingletonMonoBehaviour<ItemManager>
 	#region private function
 	private ItemID JudgeGenerateItem()
     {
-		ItemID id = ItemID.Heal;
+		ItemID id = ItemID.None;
+		int rnd = Random.Range(0, _DropEstablishment);   // 0 ～ 4
 
-		if (GameModeController.Instance.Princess.Life >= 5) id = ItemID.Exp;
+		// 乱数で外れた場合
+		if(rnd > 0)
+        {
+			_DropEstablishment--;
+			return id;
+		}
+
+		id = ItemID.Heal;
+
+		// 姫のライフからドロップするアイテムを考える
+		if (GameModeController.Instance.Princess.Life < 3) rnd = 0;
+		else rnd = Random.Range(GameModeController.Instance.Princess.Life, 6);   // 1 ～ 5
+
+		if (rnd == 5) id = ItemID.Exp;
+
+		_DropEstablishment = _MaxDropEstablishment;
 
 		return id;
 	}

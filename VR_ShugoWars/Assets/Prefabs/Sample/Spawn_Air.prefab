@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2656463324144960705}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10, y: 5, z: 10}
+  m_LocalPosition: {x: 3.2, y: 5.2, z: 4.9}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -48,7 +48,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2656463324144960705}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -109,7 +109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2656463324512022708}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: 0}
+  m_LocalPosition: {x: 9.53, y: 2.55, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -131,7 +131,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2656463324512022708}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -213,11 +213,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Enemy_List:
-  - {fileID: 8903580683677197805, guid: 4ae8752fdcb5a3549b6183ddb506cc94, type: 3}
+  - {fileID: 8903580683677197805, guid: 821c13d895cc60041bcc984f0684bbbf, type: 3}
+  - {fileID: 8050530100635732298, guid: 6238c45b13dd70542b3ad0bb2a828086, type: 3}
   enemy_spawn_time:
+  - 5
   - 10
   max_enemy:
   - 3
-  enemy_count: []
+  - 1
+  enemy_count:
+  - 0
+  - 0
   range_A: {fileID: 2656463324144960705}
   range_B: {fileID: 2656463324512022708}

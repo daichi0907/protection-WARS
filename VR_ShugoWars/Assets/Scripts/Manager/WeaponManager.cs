@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class WeaponManager : SingletonMonoBehaviour<WeaponManager>
 {
+    #region define
+    enum Weapon
+    {
+		None = -1,
+		Gun,
+		Missile,
+    }
+	#endregion
+
 	#region serialize field
 	[SerializeField] private List<GameObject> _EnemyList = new List<GameObject>();
 	[SerializeField] private List<GameObject> _WeaponList = new List<GameObject>();
@@ -13,6 +22,10 @@ public class WeaponManager : SingletonMonoBehaviour<WeaponManager>
 	GameObject gunObj;
 	GameObject launcharObj;
 	float dropProbability = 10; // •Ší‚ª—‚¿‚éŠm—¦
+	#endregion
+
+	#region property
+
 	#endregion
 
 	#region Unity function

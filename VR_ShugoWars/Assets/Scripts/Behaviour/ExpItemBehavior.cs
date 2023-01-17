@@ -9,7 +9,7 @@ public class ExpItemBehavior : MonoBehaviour, IGrabableComponent
     #endregion
 
     #region serialize field
-
+    [SerializeField, Range(5.0f, 10.0f)] float _LifeTime = 10.0f;
     #endregion
 
     #region field
@@ -24,6 +24,8 @@ public class ExpItemBehavior : MonoBehaviour, IGrabableComponent
     private float _Speed;   // 姫へ向かって動く際のスピード
 
     private bool _IsMove;   // アイテムが姫に向かって動いているか
+
+    private float time;
     #endregion
 
     #region property
@@ -41,13 +43,17 @@ public class ExpItemBehavior : MonoBehaviour, IGrabableComponent
         _GapVec = Vector3.zero;
         _Speed = 0.0f;
         _IsMove = false;
+
+        time = 0.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y < -1) Destroy(this.gameObject);
+        if (transform.position.y < -1) DestroyThisItem();
         _IsMove = _ExpItemSensor.IsFindPlayer;
+
+        if(time > _LifeTime) DestroyThisItem();
 
         if (_ExpItemSensor.IsFindPlayer)
         {
@@ -80,7 +86,7 @@ public class ExpItemBehavior : MonoBehaviour, IGrabableComponent
         EffectManager.Instance.Play(EffectManager.EffectID.Exp, transform.position);
 
         // アイテム消滅
-        Destroy(this.gameObject);
+        DestroyThisItem();
     }
     #endregion
 
@@ -97,7 +103,16 @@ public class ExpItemBehavior : MonoBehaviour, IGrabableComponent
     #endregion
 
     #region private function
-    
+    /// <summary>
+    /// アイテムを消去する
+    /// </summary>
+    private void DestroyThisItem()
+    {
+        ItemManager.Instance.AliveItemCount--;
+
+        // アイテム消滅
+        Destroy(this.gameObject);
+    }
     #endregion
 
     /// <summary> 摘まむ指先から、摘ままれたオブジェクトにアクセスするためのインターフェース </summary>

@@ -20,18 +20,22 @@ public class ShipFrontScript : MonoBehaviour
         var dir = shipScript.course - Front_P.transform.position;
         dir.Normalize();
         var look = Quaternion.LookRotation(dir); //å¸Ç´ÇïœçXÇ∑ÇÈ
-        look.x = 0;
-        look.z = 0;
+        //look.x = 0;
+        //look.z = 0;
         Front_P.transform.rotation = look;
     }
 
     private void OnTriggerEnter(Collider hitother)
     {
-        //Debug.Log(hitother.gameObject.name);
-        //Debug.Log(Shipobj.name + "(Clone)");
         if (hitother.gameObject.name == Shipobj.name)
         {
             shipScript.movef = false;
+
+            var Others = hitother.gameObject.GetComponent<Ship_RScript>();
+            if (Others.movef == false)
+            {
+                Others.movef = true;
+            }
         }
     }
 

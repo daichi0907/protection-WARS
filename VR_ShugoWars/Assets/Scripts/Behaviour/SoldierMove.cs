@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SoldierMove : EnemyParent
 {
- 
- public float chaseSpeed = 0.1f;//追いかけるスピード
+
+    public float chaseSpeed = 0.1f;//追いかけるスピード
     public float MaxRange = 0.8f;//手が届くであろう距離
     public float CoolTime = 3f;//攻撃のクールタイム
     public float ExitDistance = 0.3f;//手が近くに来たら逃げる距離
@@ -34,11 +34,20 @@ public class SoldierMove : EnemyParent
 
     public float Desk_height = 0.4f;
 
+    bool spawn = true;
+    public Animator animator;
+
+    GameObject Point;
+
+    private Dictionary<string, _Data> _PoolSE = new Dictionary<string, _Data>();
+
 
     // Start is called before the first frame update
     void Start()
     {
         SetUp();
+
+        animator = GetComponent<Animator>();
 
         //Hime = GameObject.FindWithTag("Princess");
         //Target = Hime.transform;
@@ -51,11 +60,44 @@ public class SoldierMove : EnemyParent
         //左手のオブジェクト（名前）
         LHand = GameObject.Find("LeftOVRHandPrefab");
         LHandTarget = LHand.transform;
+
+        Point = GameObject.Find("soldierAtanPoint");
+
+        SetSE();
+
+
     }
+    void SetSE()
+    {
+        _PoolSE.Add("Gun_Shot", new _Data("Gun_Shot", "3D/Gun_Shot"));
+        
+    }
+    // 指定のSEを１回再生
+    void PlaySE(string key)
+    {
+        // リソースの取得
+        var _data = _PoolSE[key];
+        var source = GetComponent<AudioSource>();
+        source.clip = _data.Clip;
+        source.Play();
+    }
+
 
     // Update is called once per frame
     void Update()
     {
+        if (GameModeController.Instance.GameTime > 180f)
+        {
+
+            animator.SetTrigger("Run");
+            fallback();
+            return;
+        }
+
+        if (spawn == true)
+        {
+            animator.SetTrigger("Pilot");
+        }
 
 
         float distance = Vector3.Distance(transform.position, Target.transform.position);
@@ -69,6 +111,7 @@ public class SoldierMove : EnemyParent
         {
             if (IsBlownAway)
             {
+                
                 return;
             }
 
@@ -138,10 +181,12 @@ public class SoldierMove : EnemyParent
             Debug.Log("追いかける");
             transform.position += transform.forward * chaseSpeed * Time.deltaTime;
 
+            animator.SetTrigger("Run");
         }
 
         void stop()
         {
+            animator.SetTrigger("Stop");
 
             time = time + Time.deltaTime;
 
@@ -154,16 +199,32 @@ public class SoldierMove : EnemyParent
 
         void shot()
         {
+            animator.SetTrigger("Shoot");
+
             Debug.Log("うった");
             gun = true;
             state = 2;
             remove = true;
+
+            PlaySE("Gun_Shot");
         }
     }
     void reposition()
     {
-        float distance = Vector3.Distance(transform.position, Target.transform.position);
+        animator.SetTrigger("Run");
+
         repostime += Time.deltaTime;
+
+
+        float x = Point.transform.position.x - this.transform.position.x;
+        float z = Point.transform.position.z - this.transform.position.z;
+
+        float rad = Mathf.Atan2(z, x) * Mathf.Rad2Deg;
+
+        Debug.Log(rad + "向いてる角度！！！！！！！！！！！！！！！！！！");
+
+        float distance = Vector3.Distance(transform.position, Target.transform.position);
+
         if (remove == true)
         {
             turn = Random.Range(0, 2);
@@ -175,6 +236,42 @@ public class SoldierMove : EnemyParent
         if (distance < 0.4f)
         {
             turn = 0;
+        }
+
+        //机の手前側の時に机の内側に入る
+        if (transform.position.z <= -0.3f)
+        {
+            //廊下の方向を向いているとき
+            if (rad < 90 && rad > -10)
+            {
+
+                turn = 1;
+                moveRange = Random.Range(-0.3f, 0);
+            }
+            //窓の方向を向いているとき
+            else if (rad >= 90 && rad < 190)
+            {
+                Debug.Log("窓の方向向いてるよ！！！！！！！！！");
+                turn = 1;
+                moveRange = Random.Range(0, 0.3f);
+            }
+        }//机の奥側の時に机の内側に入る
+        else if (transform.position.z >= 0.4f)
+        {
+            //廊下の方向を向いているとき
+            if (rad < 90 && rad > -10)
+            {
+
+                turn = 0;
+                moveRange = Random.Range(0, 0.3f);
+            }
+            //窓の方向を向いているとき
+            else if (rad >= 90 && rad < 190)
+            {
+                Debug.Log("窓の方向向いてるよ！！！！！！！！！");
+                turn = 0;
+                moveRange = Random.Range(-0.3f, 0);
+            }
         }
 
         switch (turn)
@@ -206,5 +303,12 @@ public class SoldierMove : EnemyParent
 
         // 敵にぶつかられた時の処理（敵に当たったかも判定）
         EnemyHit(hitcollision.gameObject);
+
+        if (hitcollision.gameObject.tag == "Desk")
+        {
+            spawn = false;
+            animator.SetTrigger("Wait");
+        }
+
     }
 }

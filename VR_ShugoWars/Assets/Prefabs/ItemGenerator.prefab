@@ -47,3 +47,5 @@ MonoBehaviour:
   _ItemList:
   - {fileID: 5511671460880575188, guid: 578da74d561292840a8deeceb4e15cb7, type: 3}
   - {fileID: 3649026041862144602, guid: 82f5e61fd45fc9248ab8c47010030bb7, type: 3}
+  _MaxDropEstablishment: 6
+  _MaxAliveItemCount: 10
