@@ -40,6 +40,8 @@ public class SoldierBullet : EnemyWeapon
     {
         transform.position = Vector3.MoveTowards(
             transform.position, Front.transform.position, speed * Time.deltaTime);
+
+        Destroy(this.gameObject, 10f);
     }
 
     private void OnCollisionEnter(Collision hitcollision)

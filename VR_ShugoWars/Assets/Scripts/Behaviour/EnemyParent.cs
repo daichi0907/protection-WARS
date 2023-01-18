@@ -9,10 +9,17 @@ public class EnemyParent : MonoBehaviour
     protected float blownPower = 100f;
     protected float awaySpeed = 1.0f;
     protected GameObject Target;
-    protected GameObject SpawnArea;
+    private GameObject SpawnAir;
     protected SpawnArea_Air spawnArea_AirScript;
-    protected GameObject SpawnGround;
+    private GameObject SpawnGround;
     protected SpawnArea_Ground spawnArea_GroundScript;
+    private GameObject SpawnShip;
+    protected SpawnArea_Ship spawnArea_ShipScript;
+    private GameObject fallback_air;
+    private GameObject fallback_ground_R;
+    private GameObject fallback_ground_L;
+    protected float fallback_speed = 0.001f;
+    protected float gametime;
     #endregion
 
 
@@ -21,6 +28,7 @@ public class EnemyParent : MonoBehaviour
     public Rigidbody rb;
     private NavMeshAgent navMeshAgent;
     public Vector3 vector;
+    private Dictionary<string, _Data> _PoolSE = new Dictionary<string, _Data>();
     #endregion
 
 
@@ -42,6 +50,8 @@ public class EnemyParent : MonoBehaviour
     //    // 敵にぶつかられた時の処理（敵に当たったかも判定）
     //    EnemyHit(hitcollision.gameObject);
     //}
+
+
     #endregion
 
 
@@ -49,16 +59,40 @@ public class EnemyParent : MonoBehaviour
     // セットアップ処理
     protected void SetUp()
     {
+        SetSE();
+
         rb = GetComponent<Rigidbody>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         Target = GameObject.Find("Princess");
 
-        SpawnArea = GameObject.Find("Spawn_Air");
-        spawnArea_AirScript = SpawnArea.GetComponent<SpawnArea_Air>();
+#if UNITY_EDITOR //デバック用　エディターのみ　スポーン系非表示の際のバグ対策
+        if (GameObject.Find("Spawn_Air") != null)
+        {
+            SpawnAir = GameObject.Find("Spawn_Air");
+            spawnArea_AirScript = SpawnAir.GetComponent<SpawnArea_Air>();
+        }
 
-        SpawnGround = GameObject.Find("Spawn_Ground");
-        spawnArea_GroundScript = SpawnGround.GetComponent<SpawnArea_Ground>();
+        if (GameObject.Find("Spawn_Ship") != null)
+        {
+            SpawnShip = GameObject.Find("Spawn_Ship");
+            spawnArea_ShipScript = SpawnShip.GetComponent<SpawnArea_Ship>();
+        }
 
+        if (GameObject.Find("Spawn_Ground") != null)
+        {
+            SpawnGround = GameObject.Find("Spawn_Ground");
+            spawnArea_GroundScript = SpawnGround.GetComponent<SpawnArea_Ground>();
+        }
+#else //本番用
+　　　　　　SpawnAir = GameObject.Find("Spawn_Air");
+            spawnArea_AirScript = SpawnAir.GetComponent<SpawnArea_Air>();
+
+　　　　　　SpawnShip = GameObject.Find("Spawn_Ship");
+            spawnArea_ShipScript = SpawnShip.GetComponent<SpawnArea_Ship>();
+
+　　　　　　SpawnGround = GameObject.Find("Spawn_Ground");
+            spawnArea_GroundScript = SpawnGround.GetComponent<SpawnArea_Ground>();
+#endif
     }
 
     // 手に当たったかを判定し、処理を行う
@@ -66,6 +100,7 @@ public class EnemyParent : MonoBehaviour
     {
         if (other.gameObject.tag == "HandCapsuleRigidbody" && !IsBlownAway)
         {
+            ONClashEnemy();
             BlownAway(other.gameObject);
         }
     }
@@ -86,13 +121,14 @@ public class EnemyParent : MonoBehaviour
             return;
         }
 
-        Debug.Log(Otherf);
+        //Debug.Log(Otherf);
 
         if ((other.gameObject.tag == "enemy_ship_r" && !IsBlownAway && Otherf)
             || (other.gameObject.tag == "enemy_tank" && !IsBlownAway && Otherf)
-            || (other.gameObject.tag == "enemy_soldier" && !IsBlownAway && Otherf))
+            || (other.gameObject.tag == "enemy_soldier" && !IsBlownAway && Otherf)
+            || (other.gameObject.tag == "enemy_ship_g" && !IsBlownAway && Otherf))
         {
-
+            ONClashEnemy();
             BlownAway_Enemy(other.gameObject);
         }
     }
@@ -136,9 +172,12 @@ public class EnemyParent : MonoBehaviour
 
         this.IsBlownAway = true;
 
+        if (gameObject.tag != "TestEnemy")
+            PlaySE("BlownAway");
+
         // 同じ種類の敵のカウンターを減らす
         EnemyAnalysis(this.gameObject);
-        Debug.Log("ship" + spawnArea_AirScript.enemy_count[0]);
+        //Debug.Log("ship" + spawnArea_AirScript.enemy_count[0]);
 
         // アイテムを落とす
         ItemDrop(true);
@@ -146,10 +185,68 @@ public class EnemyParent : MonoBehaviour
         Destroy(this.gameObject, 1f);
     }
 
+    //ゲーム終了時に机からはける
+    protected void fallback()
+    {
+
+        //gametime = GameModeController.Instance.GameTime;
+        //Debug.Log(gametime + "←←←←←←←←←←←");
+
+        //if (gametime < 10f)
+        //{
+        //    return;
+        //}
+
+        fallback_air = GameObject.Find("fallback_air");
+        fallback_ground_R = GameObject.Find("fallback_ground_R");
+        fallback_ground_L = GameObject.Find("fallback_ground_L");
+
+        //浮いてる敵は窓に向かって進む
+        if (gameObject.tag == "enemy_ship_r" || gameObject.tag == "enemy_gatring")
+        {
+            transform.LookAt(fallback_air.transform.position);
+            transform.position = Vector3.MoveTowards(transform.position, fallback_air.transform.position, fallback_speed);
+        }
+
+        //机の上の敵は机から落下
+        if (gameObject.tag == "enemy_soldier" || gameObject.tag == "enemy_tank")
+        {
+            rb.useGravity = true;
+            float fallback_ground_distance = Vector3.Distance(transform.position, fallback_ground_R.transform.position);
+
+            //fallback_ground_R(机を正面で見て机の右端)から机の真ん中の距離の中にいれば机の右端から落下
+            if (fallback_ground_distance < 1f)
+            {
+                transform.LookAt(fallback_ground_R.transform.position);
+                transform.position = Vector3.MoveTowards(transform.position, fallback_ground_R.transform.position, fallback_speed);
+            }
+            //fallback_ground_R(机を正面で見て机の右端)から机の真ん中の距離の中にいなければ机の左端から落下
+            else
+            {
+                transform.LookAt(fallback_ground_L.transform.position);
+                transform.position = Vector3.MoveTowards(transform.position, fallback_ground_L.transform.position, fallback_speed);
+            }
+
+        }
+    }
     #endregion
 
-
     #region Method
+    void SetSE()
+    {
+        _PoolSE.Add("BlownAway", new _Data("BlownAway", "3D/BlownAwaySE"));
+    }
+
+    // 指定のSEを１回再生
+    void PlaySE(string key)
+    {
+        // リソースの取得
+        var _data = _PoolSE[key];
+        var source = GetComponent<AudioSource>();
+        source.clip = _data.Clip;
+        source.Play();
+    }
+
     // 吹っ飛んできた敵に巻き込まれた時の処理 
     void BlownAway_Enemy(GameObject other)
     {
@@ -169,6 +266,11 @@ public class EnemyParent : MonoBehaviour
         else if (other.tag == "enemy_tank")
         {
             var OtherData = other.gameObject.GetComponent<TankMove>();
+            Othervec = OtherData.vector;
+        }
+        else if (other.tag == "enemy_ship_g")
+        {
+            var OtherData = other.gameObject.GetComponent<GatringMove>();
             Othervec = OtherData.vector;
         }
         else
@@ -212,20 +314,70 @@ public class EnemyParent : MonoBehaviour
     {
         if (other.tag == "enemy_ship_r")
         {
-            spawnArea_AirScript.enemy_count[0]--;
+#if UNITY_EDITOR //デバック用　エディターのみ　スポーン系非表示の際のバグ対策
+            if (spawnArea_AirScript != null)
+            {
+                spawnArea_AirScript.enemy_count[0]--;
+            }
+
+#else //本番用
+                spawnArea_AirScript.enemy_count[0]--;
+#endif
+            //spawnArea_AirScript.enemyshiplist.Remove(this.gameObject);
+
         }
         else if (other.tag == "enemy_soldier")
         {
-            spawnArea_GroundScript.enemy_count[0]--;
+#if UNITY_EDITOR //デバック用　エディターのみ　スポーン系非表示の際のバグ対策
+            if (spawnArea_ShipScript != null)
+            {
+                spawnArea_ShipScript.enemy_count[0]--;
+            }
+
+#else //本番用
+                spawnArea_ShipScript.enemy_count[0]--;
+#endif
+
         }
         else if (other.tag == "enemy_tank")
         {
-            spawnArea_GroundScript.enemy_count[1]--;
+#if UNITY_EDITOR //デバック用　エディターのみ　スポーン系非表示の際のバグ対策
+            if (spawnArea_GroundScript != null)
+            {
+                spawnArea_GroundScript.enemy_count[0]--;
+            }
+
+#else //本番用
+                spawnArea_GroundScript.enemy_count[0]--;
+#endif
+
+        }
+        else if (other.tag == "enemy_ship_g")
+        {
+#if UNITY_EDITOR //デバック用　エディターのみ　スポーン系非表示の際のバグ対策
+            if (spawnArea_AirScript != null)
+            {
+                spawnArea_AirScript.enemy_count[1]--;
+            }
+
+#else //本番用
+                spawnArea_AirScript.enemy_count[1]--;
+#endif
         }
         else
         {
             return;
         }
+    }
+
+    void ONClashEnemy()
+    {
+        if (this.tag == "enemy_ship_r")
+        {
+            var ship_sc = this.GetComponent<Ship_RScript>();
+            ship_sc.rig_f = true;
+        }
+
     }
 
     // 武器・アイテムドロップ処理
@@ -244,5 +396,6 @@ public class EnemyParent : MonoBehaviour
             ItemManager.Instance.GenerateItem(dropPos);
         }
     }
+
     #endregion
 }

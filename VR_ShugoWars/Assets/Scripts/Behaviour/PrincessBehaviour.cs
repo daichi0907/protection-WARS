@@ -1,4 +1,5 @@
 /// <summary> 松島 </summary>
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,12 +13,20 @@ public partial class PrincessBehaviour
     #endregion
 
     #region serialize field
+    [SerializeField] GameObject LeftHandAnchor;
+    [SerializeField] GameObject RightHandAnchor;
 
+    [SerializeField] private GameObject _BodyModel;
+
+    [SerializeField] private GameObject _EquipPoint;
+
+    [SerializeField] private List<GameObject> Weapons = new List<GameObject>();
     #endregion
 
     #region field
     /// <summary> プレイヤーにアタッチされたコンポーネントを取得するための変数群 </summary>
     private Animator _Animator;
+    private AnimatorStateInfo _StateInfo;
     private Transform _GrabedPoint;
     private Rigidbody _Rigidbody;
 
@@ -41,6 +50,12 @@ public partial class PrincessBehaviour
 
     // レベルアップまでに必要なオーブの数
     int[] _LevelUpLimits = new int[] { 10, 20, 30, 40 };
+
+    private bool _IsBarrier = false;
+
+    /// <summary> ダメージ後の処理用の変数群 </summary>
+    private bool _IsInvincible = false;
+    private float _DamagedTime = 0.0f;
     #endregion
 
     #region property
@@ -61,7 +76,7 @@ public partial class PrincessBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _Animator = GetComponent<Animator>();
+        _Animator = transform.Find("Princess").gameObject.GetComponent<Animator>();
         _GrabedPoint = transform.Find("GrabedPoint").gameObject.transform;
         _Rigidbody = GetComponent<Rigidbody>();
 
@@ -69,6 +84,9 @@ public partial class PrincessBehaviour
         _PlayerDatas[1] = GameObject.Find("RightOVRHandPrefab").GetComponent<PlayerData>();
 
         SetUpStateMachine();
+
+        var obj = Instantiate(Weapons[0]);
+        obj.transform.SetParent(_EquipPoint.transform);
     }
 
     void FixedUpdate()
@@ -80,14 +98,31 @@ public partial class PrincessBehaviour
     void Update()
     {
         _CurrentState = _PrincessState;
+
         // デバッグ用関数
         DebugFunction();
+
+        _StateInfo = _Animator.GetCurrentAnimatorStateInfo(0);
 
         // ステートマシンの更新
         _StateMachine.Update();
 
+        // ダメージを受けた際の点滅処理
+        DamageEffect();
+
+        // 死亡時の処理
+        if (_Life <= 0 && _PrincessState != StateEnum.Dead) _StateMachine.Dispatch((int)Event.ToDead);
+
         // ひとつ前のステートを保存
         _PrevState = _CurrentState;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.tag == "Barrier")
+        {
+            _IsBarrier = true;
+        }
     }
     #endregion
 
@@ -118,6 +153,11 @@ public partial class PrincessBehaviour
     {
         _RideArea = null;
     }
+
+    public void StartDeadAnim()
+    {
+        _Animator.SetTrigger("ToDead");
+    }
     #endregion
 
     #region private function
@@ -126,7 +166,6 @@ public partial class PrincessBehaviour
     {
         // 実験用：Backspaceを5回で死亡状態に強制的に遷移
         if (Input.GetKeyDown(KeyCode.Backspace)) ReceiveDamage(1);
-        if (_Life <= 0 && _PrincessState != StateEnum.Dead) _StateMachine.Dispatch((int)Event.ToDead);
 
         // アイテムを生成
         if (Input.GetKeyDown(KeyCode.G))
@@ -161,9 +200,25 @@ public partial class PrincessBehaviour
             && _Life == 1)
             return;
 
+        // ダメージ後の無敵状態ならリターン
+        if (_IsInvincible) return;
+
+        Sound2D.PlaySE("P_DamagedSE");
+
         _Life -= damage;
 
         if (_Life < 0) _Life = 0;
+
+        _IsInvincible = true;
+
+        // コルーチンの起動
+        StartCoroutine(DelayCoroutine(0.5f, () =>
+        {
+            // n秒後にここの処理が実行される
+            _IsInvincible = false;
+            _BodyModel.SetActive(true);
+            _DamagedTime = 0.0f;
+        }));
     }
 
     /// <summary>
@@ -179,7 +234,37 @@ public partial class PrincessBehaviour
         {
             _Level++;   // レベルアップ
             _Exp -= _LevelUpLimits[index];   // 使った経験値は消滅
+
+            _Life = 5;
         }
+    }
+
+    /// <summary>
+    /// ダメージを受けた際の点滅処理
+    /// </summary>
+    private void DamageEffect()
+    {
+        // ダメージ後の無敵状態でなければ以下の処理は行わない
+        if (!_IsInvincible) return;
+
+        _DamagedTime += Time.deltaTime;
+        if (_DamagedTime > 0.1f)
+        {
+            _BodyModel.SetActive(!_BodyModel.activeSelf);
+            _DamagedTime = 0.0f;
+        }
+    }
+
+    /// <summary>
+    /// 一定時間後に処理を呼び出すコルーチン
+    /// </summary>
+    /// <param name="seconds">遅らせる秒数</param>
+    /// <param name="action">呼び出す処理</param>
+    /// <returns></returns>
+    private IEnumerator DelayCoroutine(float seconds, Action action)
+    {
+        yield return new WaitForSeconds(seconds);
+        action?.Invoke();
     }
     #endregion
 
@@ -231,6 +316,8 @@ public partial class PrincessBehaviour
     {
         // ライフがMaxなら以下の処理は行わない。
         if (_Life >= 5) return;
+
+        Sound2D.PlaySE("HealSE");
 
         _Life += healPoint;
         if (_Life > 5) _Life = 5;   // 5より上にはしない

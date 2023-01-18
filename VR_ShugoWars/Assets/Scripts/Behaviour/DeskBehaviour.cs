@@ -90,6 +90,10 @@ public class DeskBehaviour : MonoBehaviour
                 {
                 }
                 break;
+            case GameModeStateEnum.DirectionSetting:
+                {
+                }
+                break;
             case GameModeStateEnum.CountDown:
                 {
                 }
@@ -145,6 +149,10 @@ public class DeskBehaviour : MonoBehaviour
         switch (_CurrentInGameState)
         {
             case GameModeStateEnum.None:
+                {
+                }
+                break;
+            case GameModeStateEnum.DirectionSetting:
                 {
                 }
                 break;

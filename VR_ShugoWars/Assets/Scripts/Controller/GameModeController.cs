@@ -12,6 +12,8 @@ public enum GameModeStateEnum : int
 {
 	/// <summary> 何もない状態 </summary>
 	None,
+	/// <summary> 方向をセッティングする </summary>
+	DirectionSetting,
 	/// <summary> ゲーム開始時にカウントダウン </summary>
 	CountDown,
 	/// <summary> ハンドのセットアップ </summary>
@@ -48,6 +50,13 @@ public class GameModeController : SingletonMonoBehaviour<GameModeController>
 
 	/// <summary> ハンドセットアップステートを管理するクラス </summary>
 	[SerializeField] private HandsSetUpController _HandsSetUp = null;
+
+	/// <summary> 方向設定用 </summary>
+	[SerializeField] private GrabBehaviour _GrabBehaviour = null;
+
+	[SerializeField, Range(0.2f, 1.5f)] float _EffectZ = 0.5f;
+
+	[SerializeField, Range(10, 180)] private int _LimitTime = 180;
 	#endregion
 
 	#region field
@@ -70,6 +79,8 @@ public class GameModeController : SingletonMonoBehaviour<GameModeController>
     /// <summary> タイムを取得 </summary>
     public float GameTime { get { return _Time; } }
 
+	public int LimitTime { get { return _LimitTime; } }
+
     /// <summary> デバッグモード </summary>
     public DebugModeEnum DebugMode { get { return _DebugMode; } }
 
@@ -81,7 +92,7 @@ public class GameModeController : SingletonMonoBehaviour<GameModeController>
     // Start is called before the first frame update
     private void Start()
 	{
-		ChangeState(GameModeStateEnum.CountDown);
+		ChangeState(GameModeStateEnum.DirectionSetting);
 	}
 
 	// Update is called once per frame
@@ -143,9 +154,13 @@ public class GameModeController : SingletonMonoBehaviour<GameModeController>
 				{
 				}
 				break;
-			case GameModeStateEnum.CountDown:
+			case GameModeStateEnum.DirectionSetting:
 				{
 					_DebugMode = DebugModeEnum.Invincible;
+				}
+				break;
+			case GameModeStateEnum.CountDown:
+				{
 					_HandsSetUp.gameObject.SetActive(false);
 				}
 				break;
@@ -158,10 +173,26 @@ public class GameModeController : SingletonMonoBehaviour<GameModeController>
 				{
 					_HandsSetUp.gameObject.SetActive(false);
 					_DebugMode = DebugModeEnum.None;
+
+					// スタート位置を設定
+					Princess.gameObject.transform.position = new Vector3(
+						0.0f,
+						StartHight,
+						-0.3f);
 				}
 				break;
 			case GameModeStateEnum.Clear:
 				{
+					_DebugMode = DebugModeEnum.Invincible;
+
+					Vector3 genaratePos = new Vector3(
+						transform.position.x,
+						StartHight,
+						transform.position.z + _EffectZ);
+
+					// エフェクトを発生させる
+					EffectManager.Instance.Play(EffectManager.EffectID.Clear, genaratePos);
+
 					// クリアシーンをロードする?
 					// SceneManager.LoadScene("ClearScene");
 					//Debug.Log("Go to ClearScene!");
@@ -173,6 +204,7 @@ public class GameModeController : SingletonMonoBehaviour<GameModeController>
 					// SceneManager.LoadScene("GameoverScene");
 					//Debug.Log("Go to GameoverScene!");
 					//_Canvas.UI_ToDead();
+					//Princess.StartDeadAnim();
 				}
 				break;
 		}
@@ -188,6 +220,11 @@ public class GameModeController : SingletonMonoBehaviour<GameModeController>
 		{
 			case GameModeStateEnum.None:
 				{
+				}
+				break;
+			case GameModeStateEnum.DirectionSetting:
+				{
+					if (_GrabBehaviour.IsFinishDirectionSetting) ChangeState(GameModeStateEnum.CountDown);
 				}
 				break;
 			case GameModeStateEnum.CountDown:
@@ -209,8 +246,9 @@ public class GameModeController : SingletonMonoBehaviour<GameModeController>
 			case GameModeStateEnum.Play:
 				{
 					// プレイヤーが死んだら GameOver 状態へ (関数 ChangeState を使う)
-					// (ヒント プレイヤーへは _Player で アクセス可能)
 					if (_Princess.IsDead) ChangeState(GameModeStateEnum.GameOver);
+
+					if (_LimitTime < _Time) ChangeState(GameModeStateEnum.Clear);
 
 					// 経過時間表示を更新
 					_Time += Time.deltaTime;

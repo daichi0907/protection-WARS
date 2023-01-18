@@ -1,11 +1,10 @@
 # 守護WARS
 3年次の後期に研究室でチーム制作を行ったゲーム。  
 
- ![VR_Test_ShugoWars_1208_プレイ写真_Moment](https://user-images.githubusercontent.com/71632844/208294413-4645f3e9-b6fc-4414-bb3f-e596b33a72bb.jpg)
+![守護WARS_キャプチャー](https://user-images.githubusercontent.com/71632844/213175352-fad5c823-f4b7-4ab6-9326-e5db2ecf5edb.jpg)
  
 〇制作期間  
 2022/09/15～2023/01/12  
-（現在も制作中のため、順次更新予定です。）
 
 〇１週間の平均作業時間  
 ６～８時間（授業時間〈３時間〉含む）
@@ -27,16 +26,18 @@
 - **<ins>README.md</ins>**  
 　⇒ゲーム概要などの説明  
   
-- **<ins>.pdf</ins>**  
+- **<ins>プレイ時の注意事項「守護WARS」.pdf</ins>**  
 　⇒ゲームをプレイしていただく際の注意事項が記述されております。  
+
+- **<ins>プレイ映像（動画）</ins>**  
+　⇒3分半ほどのプレイ映像となります。  
+　　ギガファイル便URL：**<ins>[プレイ映像ダウンロード](https://25.gigafile.nu/0428-k54cbd752657217461f3b256e82b4bdcf)</ins>**（期間：2023年4月28日(金)まで, ダウンロードキー：無し）  
+  <!--削除キー8af8-->
   
-- **<ins>実行ファイル</ins>**  
-　⇒ギガファイル便URL：**<ins>[ダウンロード](https://67.gigafile.nu/0117-p2451e6efbd3a02657214a9140669b4e0)</ins>**（期間：2023年1月17日(火)まで, ダウンロードキー：無し）  
- 　　**<ins>（違う実行ファイルのダウンロードURLだよーーーーー）</ins>**  
- 　　gitですと容量の関係上アップすることができませんでしたので、  
- 　　上記のURLからダウンロードをお願いいたします。  
-　　（製作途中のため、完成品ができ次第ファイル内容並びにURLが変更する可能性があります。）  
-  <!--削除キーd021-->
+※「プレイ映像」ですが、  
+　gitですと容量の関係上アップすることができませんでしたので、  
+　上記のURLからダウンロードをお願いいたします。  
+　（製作途中のため、完成品ができ次第ファイル内容並びにURLが変更する可能性があります。）
 
 
 # どんなゲームか
@@ -51,17 +52,16 @@
   
 【姫】  
 敵を倒すことで経験値・回復・武器がドロップされます。  
-経験値を一定数与えることで姫のレベルが上がり自衛能力が高まります。  
+経験値を一定数与えることでレベルが上がりプレイヤーと姫の体力が満タンになります。  
 回復を渡すことで姫の体力を回復することができます。  
-姫に武器を渡すことで武器の種類に応じた様々な自衛をしてくれます。    
   
-![VR_Test_ShugoWars_1208_セットアップフェーズ映像](https://user-images.githubusercontent.com/71632844/208294900-5f8c6a7d-398d-411b-8788-2ab3f9af44f8.gif)  
+![守護WARS_セットアップフェーズ映像](https://user-images.githubusercontent.com/71632844/213175402-a182763a-65b6-4594-a1b7-2ec7abaa2140.gif)  
 ⓵セットアップフェーズの映像  
   
-![VR_Test_ShugoWars_1208_プレイ映像](https://user-images.githubusercontent.com/71632844/208294927-dde3571f-8cd1-4cfb-9275-db88297598bc.gif)  
+![守護WARS_プレイ映像](https://user-images.githubusercontent.com/71632844/213175498-49ff8e83-943d-4422-9096-28a2490a2837.gif)   
 ⓶プレイ映像  
   
-![VR_Test_ShugoWars_1208_スタン中の映像](https://user-images.githubusercontent.com/71632844/208294964-0cbeb53b-a4ef-49e3-bda1-b6bf1ffe66f5.gif)  
+![守護WARS_手がスタン中の映像](https://user-images.githubusercontent.com/71632844/213175550-f4bcd906-c4ce-4dbb-9e72-e825da4ea364.gif)  
 ⓷手がスタン中の映像  
 
 
@@ -74,7 +74,7 @@
 　Unity既存のOculus専用アセットにハンドトラッキングを生成する処理がありますが、その中のCapsuleを生成する処理の中にタグを付与する処理を追加することでほかのオブジェクトとの接触判定を比較的簡単に取得できるようにしました。  
 　また簡易的ではありますが、単に手のベクトルの方向に飛んでいくようにするだけではなく少し上方向に飛ばすように調整することで「吹っ飛ばした感」を出すようにしました。  
 
-- **<ins>敵と敵の攻撃（ミサイル）などの共通処理の基盤作成並びにリファクタリング</ins>**  
+- **<ins>敵と敵の攻撃（ミサイル）などの共通処理の基盤作成</ins>**  
 　敵の挙動に関する処理は私以外の２名がたんとうしていますが、プレイヤーに吹っ飛ばされた時の処理など敵の種類が違っても共通する処理が多々あります。そういった処理を親クラスに関数化してまとめ上げ継承させることで、子クラスでの関数呼び出しや処理入力を最低限にし敵の挙動処理を行っている２人の作業効率が良くなるようにしました。  
 
 - **<ins>敵が倒れた際の武器のドロップ処理</ins>**  
@@ -88,13 +88,18 @@
 　既存のシェーダーを使うと見栄え的に没入感に欠ける現象が起きてしまいましたので、既存のシェーダーソースを改良し人の手に近い見た目かつプレイしやすい色合いに変更できるよう調整しました。
 　また、手がスタン状態になった際に赤く点滅し視覚的にスタン状態であることがわかるようしているのですが、こちらの処理も実装しました。  
  
+- **<ins>BGM・SEの2D音源処理の作成と3D音源処理の基盤づくり</ins>**   
+　シングルトンパターンでの音源処理を作成しました。  
+　また、3D音源は処理の基盤を作り全体に共有することで、少ない時間で実装予定の効果音をすべて実装できるようにしました。  
+
+ 
 
 # ソースファイル
 | ソースファイル | 軽い説明 | 記述・担当部分 |
 | --- | --- | --- |
 | ▼▼[Scriptsフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts) |  |  |
 | ▼[Behaviourフォルダ](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour) |  |  |
-| [EnemyParent.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/EnemyParent.cs) | 敵の親クラス（敵共通の処理） | プレイヤーとの接触判定処理。 <br> 倒された際のアイテムのドロップ処理 。<br>リファクタリング 。 |
+| [EnemyParent.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/EnemyParent.cs) | 敵の親クラス（敵共通の処理） | プレイヤーとの接触判定処理。 <br> 倒された際のアイテムのドロップ処理 。 |
 | [EnemySample.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/EnemySample.cs) | 敵の子クラス（敵が実装され次第消去予定のサンプル） | 全記述 |
 | [EnemyWeapon.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/EnemyWeapon.cs) | 敵の攻撃の親クラス（プレイヤーと姫との衝突判定を取得） | 全記述 |
 | [HandRightCollider.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/HandRightCollider.cs) | 手の加速度を毎フレーム計算し、手の動いている向きと力を算出する | 全記述 |
@@ -103,8 +108,9 @@
 | [WeaponItemBehaviour.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Behaviour/WeaponItemBehaviour.cs) | 敵が落とす武器本体に関する処理 | 全記述 |
 | ▼[Controllerフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts/Controller) |  |  |
 | [HandsSetUpController.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Controller/HandsSetUpController.cs) | 手のセットアップフェーズに行う処理 | 全記述 |
+| [SoundController.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Controller/SoundController.cs) | ゲーム中の2D音源初期化処理、BGM関係の処理 | 姫のSEのロード処理以外記述 |
 | ▼[HandSetUpフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts/HandSetUp) | 手のセットアップフェーズで使うボタン処理がまとめてあるフォルダ |  |  |
-| [HandsSetUpController.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/GameStart.cs) | ゲームスタートボタンの処理 | 全記述 |
+| [GameStart.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/GameStart.cs) | ゲームスタートボタンの処理 | 全記述 |
 | [LeftHandOK.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/LeftHandOK.cs) | 左手のセットアップ完了ボタンの処理 | 全記述 |
 | [LeftHandSetReset.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/LeftHandSetReset.cs) | 左手のコライダーをセットしなおすボタンの処理 | 全記述 |
 | [Respawn.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/Respawn.cs) | 試し打ちの敵をリスポーンするボタンの処理 | 全記述 |
@@ -112,16 +118,19 @@
 | [RightHandSetReset.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/RightHandSetReset.cs) | 右手のコライダーをセットしなおすボタンの処理 | 全記述 |
 | ▼[Managerフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts/Manager) |  |  |
 | [WeaponManager.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Manager/WeaponManager.cs) | 敵を倒した際の武器のドロップに関する処理 | 全記述 |
+| ▼[Soundフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts/Sound) |  |  |
+| [Sound2D.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Sound/Sound2D.cs) | シングルトンパターンを用いて2Dサウンドを一括管理 | 全記述 |
 |  |  |  |
-| ▼▼[Oculusフォルダ > VRフォルダ > Scriptsフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Oculus/VR/Scripts) |  |  |
-| ▼[Utilフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Oculus/VR/Scripts) |  |  |
+| ▼▼[Oculusフォルダ > VRフォルダ > Scriptsフォルダ > Utilフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Oculus/VR/Scripts/Util) |  |  |
 | [OVRSkeleton.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Oculus/VR/Scripts/Util/OVRSkeleton.cs) | ハンドトラッキングで手の生成の際などに、Born,Bind,Capsuleを生成する処理 | Capsule生成の際タグをつける処理を追加 <br> （これにより敵との当たり判定を取得しやすくしている） |
+|  |  |  |
+| ▼▼[Oculusフォルダ > SampleFrameworkフォルダ > Coreフォルダ > CustomHandsフォルダ > Materialsフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Oculus/SampleFramework/Core/CustomHands/Materials) |  |  |
+| [Hands_DiffBump.shader](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Oculus/SampleFramework/Core/CustomHands/Materials/Hands_DiffBump.shader) | ハンドトラッキングで取得した手を描画する | 元のHands＿DiffBump.shaderを改良し、白い手に発光から任意の色に全体が発光するよう修正。|
 
 ※上記に記載のないスクリプトファイルは私自身記述した部分のないスクリプトファイルとなっております。  
-**<ins>(シェーダーのこと書いてないよーーー！)</ins>**  
 
 
 # 使用したデバイス・ツール
-・Unity 2020.3.18f1   
+・Unity 2021.3.0f1   
 ・VisualStudio2019  
 ・Meta Quest2 **（Link接続必須のゲームとなっております。）**  

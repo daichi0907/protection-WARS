@@ -73,7 +73,7 @@ public class EnemyWeapon : MonoBehaviour
         {
             if (collision.transform.parent.parent.gameObject == _OVRHandLeft)
             {
-                Debug.Log("HandHit!：" + collision);
+                //Debug.Log("HandHit!：" + collision);
                 battleObj = _OVRHandLeft.GetComponent<IBattleComponent>();
                 battleObj.ApplyDamage(_applyDamage);
                 _IsApplyDamage = true;
@@ -82,7 +82,7 @@ public class EnemyWeapon : MonoBehaviour
             }
             else if (collision.transform.parent.parent.gameObject == _OVRHandRight)
             {
-                Debug.Log("HandHit!：" + collision);
+                //Debug.Log("HandHit!：" + collision);
                 battleObj = _OVRHandRight.GetComponent<IBattleComponent>();
                 battleObj.ApplyDamage(_applyDamage);
                 _IsApplyDamage = true;

@@ -47,3 +47,4 @@ MonoBehaviour:
   _EffectList:
   - {fileID: 1681605761495504841, guid: d98c798a6c023a849bf2e825474e2132, type: 3}
   - {fileID: 3392014037987835845, guid: f0562a4c129405e4f99b1046c5cdd7f2, type: 3}
+  - {fileID: 3818924036811956923, guid: 8aab35f88c600c54fb5c7395945f753d, type: 3}

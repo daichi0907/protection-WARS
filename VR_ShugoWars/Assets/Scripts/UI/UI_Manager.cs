@@ -16,6 +16,9 @@ public class UI_Manager : MonoBehaviour
     #region serialize field
     [SerializeField] private Sprite _BrankSprite;
     [SerializeField] private Sprite _HeartSprite;
+    [SerializeField] private int _MaxHandHP = 50;
+
+    [SerializeField] bool IsDebugMode = false;
     #endregion
 
     #region field
@@ -40,12 +43,14 @@ public class UI_Manager : MonoBehaviour
     private GameObject _HandLifePanel;
     private PlayerData _LeftHand;
     private PlayerData _RightHand;
-    private int _MaxHandHP = 50;
     private Slider _LeftSlider;
     private Slider _RightSlider;
 
     private GameObject _Desk;
     private bool _IsFinishSetUp = false;
+
+    /// <summary> 方向設定パネル以下のオブジェクトの変数 </summary>
+    private GameObject _DirectionSettingPanel;
 
     #endregion
 
@@ -78,6 +83,9 @@ public class UI_Manager : MonoBehaviour
         _RightSlider = _HandLifePanel.transform.GetChild(1).gameObject.GetComponent<Slider>();
 
         _Desk = GameObject.Find("Desk");
+
+        _DirectionSettingPanel = transform.Find("DirectionSettingPanel").gameObject;
+        _DirectionSettingPanel.SetActive(false);
     }
 
     void Start()
@@ -120,8 +128,16 @@ public class UI_Manager : MonoBehaviour
                 {
                 }
                 break;
+            case GameModeStateEnum.DirectionSetting:
+                {
+                    _DefaultPanel.SetActive(false);
+                    _DirectionSettingPanel.SetActive(true);
+                }
+                break;
             case GameModeStateEnum.CountDown:
                 {
+                    _DirectionSettingPanel.SetActive(false);
+                    _DefaultPanel.SetActive(true);
                 }
                 break;
             case GameModeStateEnum.HandsSetUp:
@@ -136,6 +152,7 @@ public class UI_Manager : MonoBehaviour
                 break;
             case GameModeStateEnum.Clear:
                 {
+                    UI_ToGameClear();
                 }
                 break;
             case GameModeStateEnum.GameOver:
@@ -158,6 +175,10 @@ public class UI_Manager : MonoBehaviour
         switch (_CurrentInGameState)
         {
             case GameModeStateEnum.None:
+                {
+                }
+                break;
+            case GameModeStateEnum.DirectionSetting:
                 {
                 }
                 break;
@@ -189,11 +210,14 @@ public class UI_Manager : MonoBehaviour
                     UpdateHandLife();
 
                     // レベル表示の更新
-                    _LevelText.text = "Level : " + GameModeController.Instance.Princess.Level
-                        + "/" + GameModeController.Instance.Princess.Exp;
+                    _LevelText.text = "Level : " + GameModeController.Instance.Princess.Level;
+                        //+ "/" + GameModeController.Instance.Princess.Exp;
                     
-                    _MessageText.text = 
-                        "" + _CurrentInGameState + " : " + GameModeController.Instance.DebugMode;
+                    if(IsDebugMode)
+                    {
+                        _MessageText.text =
+                            "" + _CurrentInGameState + " : " + GameModeController.Instance.DebugMode;
+                    }
                 }
                 break;
             case GameModeStateEnum.Clear:
@@ -223,7 +247,7 @@ public class UI_Manager : MonoBehaviour
     {
         Vector3 temp = new Vector3(
                         _Desk.transform.position.x,
-                        _Desk.transform.position.y + 0.0051f,
+                        _Desk.transform.position.y + 0.0111f,
                         _Desk.transform.position.z);
 
         RectTransform rectTransform = GetComponent<RectTransform>();
@@ -234,7 +258,10 @@ public class UI_Manager : MonoBehaviour
     /// <summary> タイマーの更新 </summary>
     public void UI_TimerUpdate(float timeF)
     {
-        int time = (int)timeF;
+        int time = 0;
+        if(_CurrentInGameState == GameModeStateEnum.Play) time = GameModeController.Instance.LimitTime - (int)timeF;
+        else time = (int)timeF;
+
         int seconds = 0;
         int minutes = 0;
 
@@ -329,6 +356,12 @@ public class UI_Manager : MonoBehaviour
     private void UI_ShowMessage(GameModeStateEnum gameModeStateEnum)
     {
         _MessageText.text = "" + gameModeStateEnum;
+    }
+
+    /// <summary> UIをGameClear状態に遷移させる </summary>
+    private void UI_ToGameClear()
+    {
+        _MessageText.text = "Game Clear!";
     }
 
     /// <summary> UIをGameOver状態に遷移させる </summary>

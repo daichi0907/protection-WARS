@@ -30,8 +30,13 @@ public class SpawnArea_Ground : SpawnAreaScript
     {
         if (gamemode.State == GameModeStateEnum.Play)
         {
-            Spawncount(Enemy_List, enemy_spawn_time, enemy_count, enemy_time, max_enemy, range_A, range_B);
+            //Spawncount(Enemy_List, enemy_spawn_time, enemy_count, enemy_time, max_enemy, range_A, range_B);
+
+            time = GameModeController.Instance.GameTime;
+            if (spawntime.Wave1(time)|| spawntime.Wave2(time)|| spawntime.Wave3(time))//énÇﬂÇ©ÇÁç≈å„Ç‹Ç≈
+            {
+                Spawncount(Enemy_List, enemy_spawn_time, enemy_count, enemy_time, max_enemy, range_A, range_B);
+            }
         }
-            
     }
 }

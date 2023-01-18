@@ -9,7 +9,7 @@ public class HealItemBehaviour : MonoBehaviour, IGrabableComponent
     #endregion
 
     #region serialize field
-
+    [SerializeField, Range(5.0f, 10.0f)] float _LifeTime = 10.0f;
     #endregion
 
     #region field
@@ -17,6 +17,8 @@ public class HealItemBehaviour : MonoBehaviour, IGrabableComponent
     private Transform _GrabedPoint;
 
     private int _HealPoint = 1;
+
+    private float time;
     #endregion
 
     #region property
@@ -28,12 +30,17 @@ public class HealItemBehaviour : MonoBehaviour, IGrabableComponent
     void Start()
     {
         _GrabedPoint = transform.Find("GrabedPoint").gameObject.transform;
+        time = 0.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(transform.position.y < -1) Destroy(this.gameObject);
+        if(transform.position.y < -1) DestroyThisItem();
+
+        time += Time.deltaTime;
+
+        if (time > _LifeTime) DestroyThisItem();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -50,7 +57,7 @@ public class HealItemBehaviour : MonoBehaviour, IGrabableComponent
         EffectManager.Instance.Play(EffectManager.EffectID.Heal, transform.position);
 
         // アイテム消滅
-        Destroy(this.gameObject);
+        DestroyThisItem();
     }
     #endregion
 
@@ -67,7 +74,16 @@ public class HealItemBehaviour : MonoBehaviour, IGrabableComponent
     #endregion
 
     #region private function
-    
+    /// <summary>
+    /// アイテムを消去する
+    /// </summary>
+    private void DestroyThisItem()
+    {
+        ItemManager.Instance.AliveItemCount--;
+
+        // アイテム消滅
+        Destroy(this.gameObject);
+    }
     #endregion
 
     /// <summary> 摘まむ指先から、摘ままれたオブジェクトにアクセスするためのインターフェース </summary>
