@@ -109,7 +109,7 @@
 | [HandsSetUpController.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Controller/HandsSetUpController.cs) | 手のセットアップフェーズに行う処理 | 全記述 |
 | [SoundController.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/Controller/SoundController.cs) | ゲーム中の2D音源初期化処理、BGM関係の処理 | 姫のSEのロード処理以外記述 |
 | ▼[HandSetUpフォルダ](https://github.com/daichi0907/protection-WARS/tree/main/VR_ShugoWars/Assets/Scripts/HandSetUp) | 手のセットアップフェーズで使うボタン処理がまとめてあるフォルダ |  |  |
-| [HandsSetUpController.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/GameStart.cs) | ゲームスタートボタンの処理 | 全記述 |
+| [GameStart.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/GameStart.cs) | ゲームスタートボタンの処理 | 全記述 |
 | [LeftHandOK.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/LeftHandOK.cs) | 左手のセットアップ完了ボタンの処理 | 全記述 |
 | [LeftHandSetReset.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/LeftHandSetReset.cs) | 左手のコライダーをセットしなおすボタンの処理 | 全記述 |
 | [Respawn.cs](https://github.com/daichi0907/protection-WARS/blob/main/VR_ShugoWars/Assets/Scripts/HandSetUp/Respawn.cs) | 試し打ちの敵をリスポーンするボタンの処理 | 全記述 |
