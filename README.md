@@ -1,7 +1,7 @@
 # 守護WARS
 3年次の後期に研究室でチーム制作を行ったゲーム。  
 
- ![VR_Test_ShugoWars_1208_プレイ写真_Moment](https://user-images.githubusercontent.com/71632844/208294413-4645f3e9-b6fc-4414-bb3f-e596b33a72bb.jpg)
+![守護WARS_キャプチャー](https://user-images.githubusercontent.com/71632844/213175352-fad5c823-f4b7-4ab6-9326-e5db2ecf5edb.jpg)
  
 〇制作期間  
 2022/09/15～2023/01/12  
@@ -30,8 +30,9 @@
 　⇒ゲームをプレイしていただく際の注意事項が記述されております。  
 
 - **<ins>プレイ映像（動画）</ins>**  
-　⇒ギガファイル便URL：**<ins>[プレイ映像ダウンロード](https://41.gigafile.nu/0120-e011ac22a6f3e1ab490e4b06b16ee259d)</ins>**（期間：2023年1月20日(金)まで, ダウンロードキー：無し）  
-  <!--削除キーf59d-->
+　⇒3分半ほどのプレイ映像となります。  
+　　ギガファイル便URL：**<ins>[プレイ映像ダウンロード](https://25.gigafile.nu/0428-k54cbd752657217461f3b256e82b4bdcf)</ins>**（期間：2023年4月28日(金)まで, ダウンロードキー：無し）  
+  <!--削除キー8af8-->
   
 ※「プレイ映像」ですが、  
 　gitですと容量の関係上アップすることができませんでしたので、  
@@ -54,13 +55,13 @@
 経験値を一定数与えることでレベルが上がりプレイヤーと姫の体力が満タンになります。  
 回復を渡すことで姫の体力を回復することができます。  
   
-![VR_Test_ShugoWars_1208_セットアップフェーズ映像](https://user-images.githubusercontent.com/71632844/208294900-5f8c6a7d-398d-411b-8788-2ab3f9af44f8.gif)  
+![守護WARS_セットアップフェーズ映像](https://user-images.githubusercontent.com/71632844/213175402-a182763a-65b6-4594-a1b7-2ec7abaa2140.gif)  
 ⓵セットアップフェーズの映像  
   
-![VR_Test_ShugoWars_1208_プレイ映像](https://user-images.githubusercontent.com/71632844/208294927-dde3571f-8cd1-4cfb-9275-db88297598bc.gif)  
+![守護WARS_プレイ映像](https://user-images.githubusercontent.com/71632844/213175498-49ff8e83-943d-4422-9096-28a2490a2837.gif)   
 ⓶プレイ映像  
   
-![VR_Test_ShugoWars_1208_スタン中の映像](https://user-images.githubusercontent.com/71632844/208294964-0cbeb53b-a4ef-49e3-bda1-b6bf1ffe66f5.gif)  
+![守護WARS_手がスタン中の映像](https://user-images.githubusercontent.com/71632844/213175550-f4bcd906-c4ce-4dbb-9e72-e825da4ea364.gif)  
 ⓷手がスタン中の映像  
 
 
